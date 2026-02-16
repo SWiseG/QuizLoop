@@ -56,9 +56,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
 
-    // Auto-create database on startup for dev
-    using var scope = app.Services.CreateScope();
+// Ensure database is created on startup (SQLite)
+using (var scope = app.Services.CreateScope())
+{
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
 }
