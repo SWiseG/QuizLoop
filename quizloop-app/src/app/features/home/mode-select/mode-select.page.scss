@@ -1,0 +1,26 @@
+.ms-life-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--ql-radius-pill);
+    background: rgba(var(--ql-error-rgb), 0.15);
+    color: var(--ql-error);
+    font: var(--ql-font-caption);
+}
+
+.ms-life-empty-card {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ms-life-watch-btn {
+    width: auto;
+    align-self: flex-start;
+}
+
+.ms-mode-card {
+    margin-bottom: 1rem;
+}

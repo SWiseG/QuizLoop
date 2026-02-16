@@ -99,6 +99,54 @@ public class LeaderboardControllerTests
     }
 
     [Fact]
+    public async Task Submit_WithInvalidScoreAboveRoundMax_ReturnsBadRequest()
+    {
+        await using var factory = new TestWebApplicationFactory();
+        using var client = CreateAuthenticatedClient(factory);
+
+        var request = new SubmitScoreRequest("classic", 5000, 10);
+        var response = await client.PostAsJsonAsync("/api/leaderboard/submit", request);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Submit_WithImpossibleScoreForCorrectCount_ReturnsBadRequest()
+    {
+        await using var factory = new TestWebApplicationFactory();
+        using var client = CreateAuthenticatedClient(factory);
+
+        var request = new SubmitScoreRequest("daily", 600, 2);
+        var response = await client.PostAsJsonAsync("/api/leaderboard/submit", request);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Submit_WithInvalidCorrectCount_ReturnsBadRequest()
+    {
+        await using var factory = new TestWebApplicationFactory();
+        using var client = CreateAuthenticatedClient(factory);
+
+        var request = new SubmitScoreRequest("classic", 100, 15);
+        var response = await client.PostAsJsonAsync("/api/leaderboard/submit", request);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Submit_WithInvalidMode_ReturnsBadRequest()
+    {
+        await using var factory = new TestWebApplicationFactory();
+        using var client = CreateAuthenticatedClient(factory);
+
+        var request = new SubmitScoreRequest("category", 500, 5);
+        var response = await client.PostAsJsonAsync("/api/leaderboard/submit", request);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Submit_WithoutAuth_ReturnsUnauthorized()
     {
         await using var factory = new TestWebApplicationFactory();

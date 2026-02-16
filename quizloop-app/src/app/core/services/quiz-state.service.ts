@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { LifeService } from './life.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,7 @@ import { AuthService } from './auth.service';
 export class QuizStateService {
     private readonly http = inject(HttpClient, { optional: true });
     private readonly auth = inject(AuthService);
+    private readonly lifeService = inject(LifeService);
     private readonly submitScoreUrl = `${environment.apiUrl}/leaderboard/submit`;
 
     // State signals
@@ -48,8 +50,19 @@ export class QuizStateService {
     ) { }
 
     startNewRound(mode?: string) {
-        const resolvedMode = mode?.trim() || 'classic';
+        const resolvedMode = mode?.trim().toLowerCase() || 'classic';
         this.currentMode.set(resolvedMode);
+
+        if (!this.lifeService.canPlay()) {
+            if (typeof window !== 'undefined') {
+                window.alert('No lives left. Watch a rewarded ad or wait for regeneration.');
+            }
+            return;
+        }
+
+        if (!this.lifeService.useLife()) {
+            return;
+        }
 
         this.questionService.getQuestions(resolvedMode).subscribe(qs => {
             this.questions.set(qs);
@@ -129,7 +142,7 @@ export class QuizStateService {
             }
 
             const request: SubmitScoreRequest = {
-                mode: this.currentMode(),
+                mode: this.toSubmitMode(this.currentMode()),
                 score: this.score(),
                 correctCount: this.correctCount()
             };
@@ -154,6 +167,10 @@ export class QuizStateService {
         } catch {
             return null;
         }
+    }
+
+    private toSubmitMode(mode: string): string {
+        return mode === 'daily' ? 'daily' : 'classic';
     }
 
     private startTimer() {

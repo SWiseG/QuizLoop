@@ -4,6 +4,21 @@
     gap: 0.5rem;
 }
 
+.ql-life-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--ql-radius-pill);
+    background: rgba(var(--ql-error-rgb), 0.15);
+    color: var(--ql-error);
+    font: var(--ql-font-caption);
+}
+
+.ql-life-icon {
+    font-size: 12px;
+}
+
 .ql-settings-btn {
     background: transparent;
     border: 1px solid rgba(var(--ql-primary-rgb), 0.4);
@@ -11,4 +26,16 @@
     border-radius: var(--ql-radius-pill);
     padding: 0.35rem 0.7rem;
     font: var(--ql-font-caption);
+}
+
+.ql-life-empty-card {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ql-life-watch-btn {
+    width: auto;
+    align-self: flex-start;
 }

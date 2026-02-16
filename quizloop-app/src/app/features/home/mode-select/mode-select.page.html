@@ -4,22 +4,36 @@
             <ion-back-button defaultHref="/home" color="primary"></ion-back-button>
         </ion-buttons>
         <ion-title class="ql-h3">{{ 'MODE_SELECT.TITLE' | translate }}</ion-title>
+        <ion-buttons slot="end">
+            <div class="ms-life-badge">
+                <span>&#10084;</span>
+                <span>{{ lives() }}/{{ maxLives }}</span>
+            </div>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ql-page">
     <div class="doc-body ql-animate-fade-in">
-        <div class="ql-card" style="margin-bottom: 1rem;" (click)="selectMode('daily')">
+        <div *ngIf="!canPlay()" class="ql-card ms-life-empty-card">
+            <span class="ql-h3">{{ 'LIVES.OUT_OF_LIVES' | translate }}</span>
+            <p class="ql-body-sm">{{ 'LIVES.REGEN_IN' | translate:{ time: regenCountdown() } }}</p>
+            <button class="ql-btn-secondary ms-life-watch-btn" (click)="watchLifeAd($event)">
+                {{ 'LIVES.WATCH_AD' | translate }}
+            </button>
+        </div>
+
+        <div class="ql-card ms-mode-card" (click)="selectMode('daily')">
             <span class="ql-h3">{{ 'MODE_SELECT.DAILY' | translate }}</span>
             <p class="ql-body-sm">{{ 'MODE_SELECT.DAILY_DESC' | translate }}</p>
         </div>
 
-        <div class="ql-card" style="margin-bottom: 1rem;" (click)="selectMode('classic')">
+        <div class="ql-card ms-mode-card" (click)="selectMode('classic')">
             <span class="ql-h3">{{ 'MODE_SELECT.CLASSIC' | translate }}</span>
             <p class="ql-body-sm">{{ 'MODE_SELECT.CLASSIC_DESC' | translate }}</p>
         </div>
 
-        <div class="ql-card" style="margin-bottom: 1rem;" (click)="selectMode('category')">
+        <div class="ql-card ms-mode-card" (click)="selectMode('category')">
             <span class="ql-h3">{{ 'MODE_SELECT.CATEGORY' | translate }}</span>
             <p class="ql-body-sm">{{ 'MODE_SELECT.CATEGORY_DESC' | translate }}</p>
         </div>

@@ -63,6 +63,13 @@
         "COINS_500_DESC": "Boost your total balance",
         "WATCH": "WATCH"
     },
+    "LIVES": {
+        "LABEL": "Lives",
+        "CURRENT": "{{current}}/{{max}} lives",
+        "OUT_OF_LIVES": "No lives left",
+        "REGEN_IN": "Next life in {{time}}",
+        "WATCH_AD": "Watch ad"
+    },
     "LEADERBOARD": {
         "TITLE": "Rankings",
         "DAILY": "Daily",

@@ -11,6 +11,10 @@ namespace QuizLoop.Api.Controllers;
 [Route("api/[controller]")]
 public class LeaderboardController : ControllerBase
 {
+    private const int MaxQuestionsPerRound = 10;
+    private const int MaxScorePerQuestion = 250;
+    private const int MaxRoundScore = MaxQuestionsPerRound * MaxScorePerQuestion;
+
     private readonly AppDbContext _dbContext;
 
     public LeaderboardController(AppDbContext dbContext)
@@ -74,12 +78,33 @@ public class LeaderboardController : ControllerBase
             return Unauthorized();
         }
 
+        var normalizedMode = dto.Mode?.Trim().ToLowerInvariant();
+        if (normalizedMode is not ("classic" or "daily"))
+        {
+            return BadRequest("mode must be one of: classic, daily.");
+        }
+
+        if (dto.CorrectCount < 0 || dto.CorrectCount > MaxQuestionsPerRound)
+        {
+            return BadRequest($"correctCount must be between 0 and {MaxQuestionsPerRound}.");
+        }
+
+        if (dto.Score < 0 || dto.Score > MaxRoundScore)
+        {
+            return BadRequest($"score must be between 0 and {MaxRoundScore}.");
+        }
+
+        if (dto.Score > dto.CorrectCount * MaxScorePerQuestion)
+        {
+            return BadRequest("score is impossible for the provided correctCount.");
+        }
+
         var nowUtc = DateTime.UtcNow;
         var round = new Round
         {
             Id = Guid.NewGuid().ToString("N"),
             UserId = userId,
-            Mode = dto.Mode,
+            Mode = normalizedMode,
             Score = dto.Score,
             CorrectCount = dto.CorrectCount,
             StartedAt = nowUtc,

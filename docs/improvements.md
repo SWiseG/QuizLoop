@@ -6,12 +6,6 @@
 
 ## 🏗️ Arquitetura
 
-### 2. API de perguntas centralizada
-
-Criar um `QuestionsController` no backend com perguntas persistidas no banco, ou integrar com API externa (ex: [Open Trivia Database](https://opentdb.com/api_config.php)). Permite adicionar categorias, dificuldades, e conteúdo em múltiplos idiomas.
-
----
-
 ### 3. Persistência local com Capacitor Preferences
 
 Usar `@capacitor/preferences` para salvar o perfil do usuário, progresso, e configurações localmente no dispositivo. Isso garante que os dados sobrevivem ao fechamento do app, mesmo sem internet.

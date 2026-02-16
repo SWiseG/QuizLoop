@@ -94,7 +94,13 @@ export class AdService {
             this.analytics.logEvent('rewarded_ad_watched', { reward_type: rewardType });
             return result;
         } catch {
-            console.log('[AdService] Rewarded ad not available (web environment)');
+            // Web/dev fallback: simulate watching a rewarded ad
+            if (!environment.production) {
+                console.log(`[AdService] Simulating rewarded ad for: ${rewardType}`);
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                console.log(`[AdService] Rewarded ad completed (dev simulation)`);
+                return { type: 'dev-simulated', rewardType };
+            }
             return null;
         }
     }

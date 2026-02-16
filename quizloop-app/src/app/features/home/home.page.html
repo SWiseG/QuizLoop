@@ -4,6 +4,10 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <span class="ql-h2">{{ 'COMMON.APP_NAME' | translate }}</span>
             <div class="ql-home-actions">
+                <div class="ql-life-badge">
+                    <span class="ql-life-icon">&#10084;</span>
+                    <span>{{ lives() }}/{{ maxLives }}</span>
+                </div>
                 <div class="ql-streak-badge">
                     <span class="ql-streak-icon">🔥</span>
                     <span>{{ user().streakCurrent }} {{ 'HOME.DAY_STREAK' | translate }}</span>
@@ -22,6 +26,14 @@
             <h2 class="ql-h1" style="margin: 1rem 0;">{{ 'HOME.READY_TODAY' | translate }}</h2>
             <p class="ql-body-sm">{{ 'HOME.QUESTIONS_BONUS' | translate }}</p>
             <button class="ql-btn-primary" style="margin-top: 1.5rem;">{{ 'HOME.START_NOW' | translate }}</button>
+        </div>
+
+        <div *ngIf="!canPlay()" class="ql-card ql-life-empty-card">
+            <span class="ql-h3">{{ 'LIVES.OUT_OF_LIVES' | translate }}</span>
+            <p class="ql-body-sm">{{ 'LIVES.REGEN_IN' | translate:{ time: regenCountdown() } }}</p>
+            <button class="ql-btn-secondary ql-life-watch-btn" (click)="watchLifeAd($event)">
+                {{ 'LIVES.WATCH_AD' | translate }}
+            </button>
         </div>
 
         <!-- Modes Selection Card -->

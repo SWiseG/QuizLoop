@@ -1,0 +1,120 @@
+# Improvements #5 e #7 — Validação de Score + Sistema de Vidas
+
+---
+
+## Item 5 — Validação de Score no Backend
+
+### Contexto
+O `POST /api/leaderboard/submit` aceita qualquer valor de [Score](file:///c:/Projects/QuizLoop/backend/QuizLoop.Api/Controllers/LeaderboardController.cs#96-97) e `CorrectCount` sem validação. Um usuário pode enviar `score: 999999`.
+
+### Regras de negócio (extraídas do código)
+- 10 perguntas por round
+- Score por resposta correta: `100 + (timeLeft × 10)`, onde `timeLeft` max = 15
+- Max score por pergunta: `100 + 150 = 250`
+- **Max score por round: `250 × 10 = 2500`**
+- `correctCount` deve estar entre `0` e `10`
+- `mode` deve ser `classic` ou `daily`
+
+### Proposed Changes
+
+#### [MODIFY] [LeaderboardController.cs](file:///c:/Projects/QuizLoop/backend/QuizLoop.Api/Controllers/LeaderboardController.cs)
+- Adicionar validação no [Submit()](file:///c:/Projects/QuizLoop/backend/QuizLoop.Api/Controllers/LeaderboardController.cs#67-94):
+  ```
+  if CorrectCount < 0 ou > 10 → BadRequest
+  if Score < 0 ou > 2500 → BadRequest
+  if Mode não é "classic" nem "daily" → BadRequest
+  if Score > CorrectCount × 250 → BadRequest (score impossível)
+  ```
+
+---
+
+## Item 7 — Sistema de Vidas
+
+### Contexto
+O app tem um card "Extra Life" na [rewards.page.html](file:///c:/Projects/QuizLoop/quizloop-app/src/app/features/rewards/rewards.page.html) mas não há sistema de vidas implementado. O [rewards.page.ts](file:///c:/Projects/QuizLoop/quizloop-app/src/app/features/rewards/rewards.page.ts) tem `TODO: grant life reward`.
+
+### Design
+
+```mermaid
+stateDiagram-v2
+    [*] --> 5_vidas: App inicia
+    5_vidas --> 4_vidas: Inicia quiz (-1)
+    4_vidas --> 3_vidas: Inicia quiz (-1)
+    3_vidas --> 2_vidas: Inicia quiz (-1)
+    2_vidas --> 1_vida: Inicia quiz (-1)
+    1_vida --> 0_vidas: Inicia quiz (-1)
+    0_vidas --> Bloqueado: Sem vidas
+    Bloqueado --> 1_vida: Assiste ad (+1)
+    Bloqueado --> 1_vida: Regeneração (30min)
+    1_vida --> 2_vidas: Regeneração (30min)
+    2_vidas --> 3_vidas: Regeneração (30min)
+```
+
+### Parâmetros
+| Parâmetro | Valor |
+|-----------|-------|
+| Max vidas | 5 |
+| Custo por quiz | 1 vida |
+| Regeneração | +1 a cada 30min |
+| Reward ad | +1 vida |
+| Armazenamento | `localStorage` |
+
+### Proposed Changes
+
+#### [NEW] life.service.ts
+- `lives = signal<number>(5)` — vidas atuais
+- `maxLives = 5`
+- `regenIntervalMs = 30 * 60 * 1000` (30min)
+- `lastRegenTimestamp` salvo em localStorage
+- `canPlay = computed(() => this.lives() > 0)`
+- `useLife()` — decrementa 1 vida, salva no localStorage
+- `addLife()` — incrementa 1 vida (max 5), salva no localStorage
+- `timeUntilNextLife = signal<number>(0)` — ms até próxima regeneração
+- No constructor: carrega vidas do localStorage, calcula vidas regeneradas desde a última sessão, inicia timer de regeneração
+
+#### [MODIFY] [quiz-state.service.ts](file:///c:/Projects/QuizLoop/quizloop-app/src/app/core/services/quiz-state.service.ts)
+- Injetar `LifeService`
+- Em [startNewRound()](file:///c:/Projects/QuizLoop/quizloop-app/src/app/core/services/quiz-state.service.ts#50-67): verificar `lifeService.canPlay()`, se não → mostrar toast/alert e não iniciar
+- Em [startNewRound()](file:///c:/Projects/QuizLoop/quizloop-app/src/app/core/services/quiz-state.service.ts#50-67): chamar `lifeService.useLife()` ao iniciar round
+
+#### [MODIFY] [rewards.page.ts](file:///c:/Projects/QuizLoop/quizloop-app/src/app/features/rewards/rewards.page.ts)
+- Injetar `LifeService`
+- No [watchAd('life')](file:///c:/Projects/QuizLoop/quizloop-app/src/app/features/rewards/rewards.page.ts#21-36): chamar `lifeService.addLife()`
+- Expor `lifeService.lives()` e `lifeService.canPlay()` no template
+
+#### [MODIFY] [rewards.page.html](file:///c:/Projects/QuizLoop/quizloop-app/src/app/features/rewards/rewards.page.html)
+- Mostrar vidas atuais no card "Extra Life" (ex: ❤️ 3/5)
+- Desabilitar botão se vidas = 5 (max)
+
+#### [MODIFY] [home.page.html / mode-select.page.html](file:///c:/Projects/QuizLoop/quizloop-app/src/app/features/home)
+- Mostrar indicador de vidas (❤️ × N)
+- Se vidas = 0, mostrar timer de regeneração e botão "Assistir ad"
+
+#### i18n Translations
+- [en-US.json](file:///c:/Projects/QuizLoop/quizloop-app/src/assets/i18n/en-US.json) e [pt-BR.json](file:///c:/Projects/QuizLoop/quizloop-app/src/assets/i18n/pt-BR.json): chaves para `LIVES.*` (no lives, regen timer, etc.)
+
+---
+
+## Verification Plan
+
+### Item 5
+```bash
+# Score válido
+curl -X POST .../api/leaderboard/submit -d '{"mode":"classic","score":1500,"correctCount":8}'
+# → 200 OK
+
+# Score inválido (acima do máximo)
+curl -X POST .../api/leaderboard/submit -d '{"mode":"classic","score":5000,"correctCount":10}'
+# → 400 Bad Request
+
+# CorrectCount impossível
+curl -X POST .../api/leaderboard/submit -d '{"mode":"classic","score":100,"correctCount":15}'
+# → 400 Bad Request
+```
+
+### Item 7
+- Iniciar app → verificar 5 vidas
+- Jogar 5 rounds → vidas = 0 → bloqueado
+- Esperar 30min → vidas = 1 (ou simular adiantando clock)
+- Assistir ad → +1 vida
+- Fechar e reabrir app → vidas persistem

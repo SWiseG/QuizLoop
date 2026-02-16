@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AdService } from 'src/app/core/services/ad.service';
 import { UserProfileService } from 'src/app/core/services/user-profile.service';
 import { AnalyticsService } from 'src/app/core/services/analytics.service';
+import { LifeService } from 'src/app/core/services/life.service';
 
 @Component({
     selector: 'app-rewards',
@@ -17,8 +18,18 @@ export class RewardsPage {
     private adService = inject(AdService);
     private userService = inject(UserProfileService);
     private analytics = inject(AnalyticsService);
+    private lifeService = inject(LifeService);
+
+    user = this.userService.userProfile;
+    lives = this.lifeService.lives;
+    maxLives = this.lifeService.maxLives;
+    canPlay = this.lifeService.canPlay;
 
     async watchAd(rewardType: string) {
+        if (rewardType === 'life' && this.lives() >= this.maxLives) {
+            return;
+        }
+
         await this.analytics.logEvent('rewarded_offer_shown', { reward_type: rewardType });
         const result = await this.adService.showRewarded(rewardType);
 
@@ -29,8 +40,7 @@ export class RewardsPage {
         }
 
         if (rewardType === 'life') {
-            // TODO: Grant life reward once the life system is implemented.
-            console.log('[Rewards] TODO: grant life reward');
+            this.lifeService.addLife();
         }
     }
 

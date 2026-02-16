@@ -63,6 +63,13 @@
         "COINS_500_DESC": "Aumente seu saldo total",
         "WATCH": "ASSISTIR"
     },
+    "LIVES": {
+        "LABEL": "Vidas",
+        "CURRENT": "{{current}}/{{max}} vidas",
+        "OUT_OF_LIVES": "Sem vidas",
+        "REGEN_IN": "Próxima vida em {{time}}",
+        "WATCH_AD": "Assistir ad"
+    },
     "LEADERBOARD": {
         "TITLE": "Classificação",
         "DAILY": "Diário",
@@ -154,3 +161,5 @@
         "LAST_UPDATED": "Ultima atualizacao: 16 de fevereiro de 2026"
     }
 }
+
+
