@@ -10,9 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure EF Core with SQLite
+// Configure EF Core with SQLite — use absolute path to avoid working directory issues
+var dbPath = Path.Combine(AppContext.BaseDirectory, "quizloop.db");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? $"Data Source={dbPath}";
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=quizloop.db"));
+    options.UseSqlite(connectionString));
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -58,15 +62,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Ensure database schema is created on startup (SQLite - ephemeral on free tier)
+// Ensure database schema is created on startup
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-    db.Database.EnsureDeleted();
-    var created = db.Database.EnsureCreated();
-    logger.LogInformation("Database EnsureCreated result: {Created}", created);
+    try
+    {
+        logger.LogInformation("SQLite DB path: {DbPath}", dbPath);
+        db.Database.EnsureDeleted();
+        var created = db.Database.EnsureCreated();
+        logger.LogInformation("Database EnsureCreated: {Created}", created);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Failed to initialize database");
+    }
 }
 
 app.UseHttpsRedirection();
