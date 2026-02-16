@@ -11,11 +11,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Configure EF Core — PostgreSQL in production, SQLite in development
-var usePostgres = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL"));
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+var usePostgres = !string.IsNullOrEmpty(databaseUrl);
 
 if (usePostgres)
 {
-    var pgConnectionString = Environment.GetEnvironmentVariable("DATABASE_URL")!;
+    var pgConnectionString = ConvertPostgresUrl(databaseUrl!);
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(pgConnectionString));
 }
@@ -99,4 +100,28 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program { }
+public partial class Program
+{
+    /// <summary>
+    /// Converts a PostgreSQL URI (postgresql://user:pass@host:port/db)
+    /// to an Npgsql connection string (Host=...;Port=...;Database=...).
+    /// If it is already a connection string, returns it as-is.
+    /// </summary>
+    internal static string ConvertPostgresUrl(string url)
+    {
+        if (!url.StartsWith("postgres://") && !url.StartsWith("postgresql://"))
+        {
+            return url; // Already a connection string
+        }
+
+        var uri = new Uri(url);
+        var userInfo = uri.UserInfo.Split(':');
+        var host = uri.Host;
+        var port = uri.Port > 0 ? uri.Port : 5432;
+        var database = uri.AbsolutePath.TrimStart('/');
+        var username = userInfo[0];
+        var password = userInfo.Length > 1 ? userInfo[1] : "";
+
+        return $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+    }
+}
