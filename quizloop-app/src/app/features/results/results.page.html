@@ -1,0 +1,29 @@
+<ion-content [fullscreen]="true" class="ql-page-center">
+    <div class="ql-animate-scale-in">
+        <span class="ql-caption" style="color: var(--ql-primary);">{{ 'RESULTS.COMPLETE' | translate }}</span>
+        <h1 class="ql-h1" style="margin-top: 1rem; font-size: 48px;">{{ score() }}</h1>
+        <p class="ql-body-sm">{{ 'RESULTS.POINTS_EARNED' | translate }}</p>
+
+        <!-- Round Stats -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 3rem 0; width: 100%;">
+            <div class="ql-stat-card">
+                <span class="ql-stat-value">{{ correctCount() }}/{{ totalQuestions() }}</span>
+                <span class="ql-stat-label">{{ 'RESULTS.CORRECT' | translate }}</span>
+            </div>
+            <div class="ql-stat-card">
+                <span class="ql-stat-value">🔥 {{ user().streakCurrent }}</span>
+                <span class="ql-stat-label">{{ 'RESULTS.DAY_STREAK' | translate }}</span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="width: 100%;">
+            <button class="ql-btn-primary" (click)="playAgain()">{{ 'RESULTS.CONTINUE' | translate }}</button>
+            <button class="ql-btn-secondary" style="margin-top: 1rem;" (click)="shareResult()">{{ 'RESULTS.SHARE' |
+                translate }}</button>
+        </div>
+
+        <!-- Interstitial Trigger -->
+        <p class="ql-caption" style="margin-top: 2rem;">{{ 'RESULTS.AD_PLACEHOLDER' | translate }}</p>
+    </div>
+</ion-content>

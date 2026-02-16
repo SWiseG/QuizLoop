@@ -1,0 +1,13 @@
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in" style="margin-top: 20%;">
+        <span class="ql-h2">{{ 'CONSENT.TITLE' | translate }}</span>
+        <p class="ql-body" style="margin-top: 2rem;">{{ 'CONSENT.BODY' | translate }}</p>
+        <p class="ql-body-sm" style="margin-top: 1rem;">{{ 'CONSENT.BODY_DETAIL' | translate }}</p>
+
+        <div style="margin-top: 3rem;">
+            <button class="ql-btn-primary" (click)="accept()">{{ 'CONSENT.ACCEPT_ALL' | translate }}</button>
+            <button class="ql-btn-secondary" (click)="decline()" style="margin-top: 1rem;">{{ 'CONSENT.CUSTOMIZE' |
+                translate }}</button>
+        </div>
+    </div>
+</ion-content>

@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ql-h3">{{ 'PROFILE.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in">
+        <!-- User Header -->
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem;">
+            <div
+                style="width: 100px; height: 100px; background: var(--ql-gradient-primary); border-radius: 50%; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+                JS</div>
+            <span class="ql-h2">John Smith</span>
+            <p class="ql-body-sm">Level 12 • Brainiac</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <ion-grid>
+            <ion-row>
+                <ion-col size="6">
+                    <div class="ql-stat-card">
+                        <span class="ql-stat-value">152</span>
+                        <span class="ql-stat-label">{{ 'PROFILE.GAMES' | translate }}</span>
+                    </div>
+                </ion-col>
+                <ion-col size="6">
+                    <div class="ql-stat-card">
+                        <span class="ql-stat-value">88%</span>
+                        <span class="ql-stat-label">{{ 'PROFILE.ACCURACY' | translate }}</span>
+                    </div>
+                </ion-col>
+                <ion-col size="6">
+                    <div class="ql-stat-card">
+                        <span class="ql-stat-value">14</span>
+                        <span class="ql-stat-label">{{ 'PROFILE.BEST_STREAK' | translate }}</span>
+                    </div>
+                </ion-col>
+                <ion-col size="6">
+                    <div class="ql-stat-card">
+                        <span class="ql-stat-value">24k</span>
+                        <span class="ql-stat-label">{{ 'PROFILE.TOTAL_PTS' | translate }}</span>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <!-- Badges Section -->
+        <div style="margin-top: 2rem;">
+            <span class="ql-section-title">{{ 'PROFILE.ACHIEVEMENTS' | translate }}</span>
+            <div style="display: flex; gap: 1rem; overflow-x: auto; padding: 1rem 0;">
+                <div *ngFor="let b of ['🔥','🏆','🧠','⭐','🎯']"
+                    style="width: 60px; height: 60px; background: var(--ql-surface-elevated); border-radius: var(--ql-radius-md); display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0;">
+                    {{ b }}
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

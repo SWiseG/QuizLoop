@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ql-h3">{{ 'REWARDS.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in">
+        <div class="ql-card-elevated"
+            style="margin-bottom: 2rem; padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 32px;">💰</div>
+            <div>
+                <span class="ql-h2">1,250</span>
+                <p class="ql-body-sm">{{ 'REWARDS.AVAILABLE_COINS' | translate }}</p>
+            </div>
+        </div>
+
+        <span class="ql-section-title">{{ 'REWARDS.WATCH_ADS' | translate }}</span>
+
+        <div class="ql-card"
+            style="margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;"
+            (click)="watchAd('life')">
+            <div>
+                <span class="ql-h3">{{ 'REWARDS.EXTRA_LIFE' | translate }}</span>
+                <p class="ql-body-sm">{{ 'REWARDS.EXTRA_LIFE_DESC' | translate }}</p>
+            </div>
+            <button class="ql-btn-secondary" style="width: auto;">{{ 'REWARDS.WATCH' | translate }}</button>
+        </div>
+
+        <div class="ql-card"
+            style="margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between;"
+            (click)="watchAd('coins')">
+            <div>
+                <span class="ql-h3">{{ 'REWARDS.COINS_500' | translate }}</span>
+                <p class="ql-body-sm">{{ 'REWARDS.COINS_500_DESC' | translate }}</p>
+            </div>
+            <button class="ql-btn-secondary" style="width: auto;">{{ 'REWARDS.WATCH' | translate }}</button>
+        </div>
+    </div>
+</ion-content>

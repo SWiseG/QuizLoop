@@ -1,0 +1,65 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ql-h3">{{ 'PREMIUM.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in" style="text-align: center;">
+        <div style="font-size: 64px; margin-bottom: 1rem;">👑</div>
+        <span class="ql-h2">{{ 'PREMIUM.UNLOCK' | translate }}</span>
+        <p class="ql-body" style="margin: 1rem 0 3rem 0;">{{ 'PREMIUM.DESCRIPTION' | translate }}</p>
+
+        <!-- Perks -->
+        <div style="text-align: left; margin-bottom: 3rem; display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span style="color: var(--ql-primary);">✓</span>
+                <span class="ql-body">{{ 'PREMIUM.NO_ADS' | translate }}</span>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span style="color: var(--ql-primary);">✓</span>
+                <span class="ql-body">{{ 'PREMIUM.EXCLUSIVE_PACKS' | translate }}</span>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span style="color: var(--ql-primary);">✓</span>
+                <span class="ql-body">{{ 'PREMIUM.INFINITE_LIVES' | translate }}</span>
+            </div>
+        </div>
+
+        <!-- Plans -->
+        <div class="ql-card-elevated" style="margin-bottom: 1rem; border: 2px solid var(--ql-primary);"
+            (click)="buy('monthly')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: left;">
+                    <span class="ql-h3">{{ 'PREMIUM.MONTHLY' | translate }}</span>
+                    <p class="ql-body-sm">{{ 'PREMIUM.MONTHLY_PRICE' | translate }}</p>
+                </div>
+                <div class="ql-streak-badge">{{ 'PREMIUM.POPULAR' | translate }}</div>
+            </div>
+        </div>
+
+        <div class="ql-card" style="margin-bottom: 1rem;" (click)="buy('yearly')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: left;">
+                    <span class="ql-h3">{{ 'PREMIUM.YEARLY' | translate }}</span>
+                    <p class="ql-body-sm">{{ 'PREMIUM.YEARLY_PRICE' | translate }}</p>
+                </div>
+                <span class="ql-caption">{{ 'PREMIUM.SAVE_PERCENT' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="ql-card" style="margin-bottom: 2rem;" (click)="buy('lifetime')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: left;">
+                    <span class="ql-h3">{{ 'PREMIUM.LIFETIME' | translate }}</span>
+                    <p class="ql-body-sm">{{ 'PREMIUM.LIFETIME_PRICE' | translate }}</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="ql-btn-primary">{{ 'PREMIUM.FREE_TRIAL' | translate }}</button>
+    </div>
+</ion-content>

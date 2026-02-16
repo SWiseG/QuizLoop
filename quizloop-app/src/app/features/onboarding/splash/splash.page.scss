@@ -1,0 +1,22 @@
+.ql-splash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.ql-logo-placeholder {
+    width: 120px;
+    height: 120px;
+    background: var(--ql-gradient-primary);
+    border-radius: var(--ql-radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--ql-shadow-glow-primary);
+
+    span {
+        color: white;
+    }
+}

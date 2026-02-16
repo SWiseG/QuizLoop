@@ -1,0 +1,156 @@
+{
+    "SPLASH": {
+        "LOADING": "Carregando seu desafio diário..."
+    },
+    "CONSENT": {
+        "TITLE": "Sua Privacidade Importa",
+        "BODY": "Usamos tecnologias como cookies e SDKs para oferecer anúncios personalizados e melhorar sua experiência.",
+        "BODY_DETAIL": "Ao tocar em \"Aceitar Tudo\", você consente com o uso dessas tecnologias para análise e publicidade.",
+        "ACCEPT_ALL": "Aceitar Tudo",
+        "CUSTOMIZE": "Personalizar Configurações",
+        "PRIVACY_LINK": "Política de Privacidade"
+    },
+    "ONBOARDING": {
+        "STEP1_TITLE": "Desafios Diários",
+        "STEP1_BODY": "Treine seu cérebro todos os dias com rodadas rápidas de 10 perguntas.",
+        "STEP2_TITLE": "Sequências & Evolução",
+        "STEP2_BODY": "Construa sua sequência e desbloqueie conquistas exclusivas jogando.",
+        "STEP3_TITLE": "Ranking Global",
+        "STEP3_BODY": "Compita com amigos e suba ao topo do ranking.",
+        "NEXT": "Próximo",
+        "GET_STARTED": "Começar"
+    },
+    "HOME": {
+        "DAILY_CHALLENGE": "DESAFIO DIÁRIO",
+        "READY_TODAY": "Pronto para Hoje?",
+        "QUESTIONS_BONUS": "10 perguntas • 500 moedas bônus",
+        "START_NOW": "JOGAR AGORA",
+        "OTHER_MODES": "Outros Modos",
+        "OTHER_MODES_DESC": "Clássico, Categoria e mais",
+        "DAY_STREAK": "Dias de Sequência",
+        "COINS": "Moedas",
+        "ACCURACY": "Precisão",
+        "AD_LABEL": "PUBLICIDADE"
+    },
+    "MODE_SELECT": {
+        "TITLE": "Escolher Modo",
+        "DAILY": "Desafio Diário",
+        "DAILY_DESC": "Conjunto diário curado de perguntas.",
+        "CLASSIC": "Clássico Aleatório",
+        "CLASSIC_DESC": "Teste seu conhecimento em todos os temas.",
+        "CATEGORY": "Modo Categoria",
+        "CATEGORY_DESC": "Foque em ciência, história, filmes e mais."
+    },
+    "QUIZ": {
+        "HINT": "DICA 💡"
+    },
+    "RESULTS": {
+        "COMPLETE": "QUIZ COMPLETO",
+        "POINTS_EARNED": "Pontos ganhos nesta rodada",
+        "CORRECT": "Corretas",
+        "DAY_STREAK": "Dias de Sequência",
+        "CONTINUE": "CONTINUAR",
+        "SHARE": "COMPARTILHAR",
+        "AD_PLACEHOLDER": "[ Anúncio intersticial apareceria aqui ]"
+    },
+    "REWARDS": {
+        "TITLE": "Central de Recompensas",
+        "AVAILABLE_COINS": "Moedas Disponíveis",
+        "WATCH_ADS": "ASSISTA ANÚNCIOS POR RECOMPENSAS",
+        "EXTRA_LIFE": "Vida Extra",
+        "EXTRA_LIFE_DESC": "Ganhe uma segunda chance no quiz",
+        "COINS_500": "500 Moedas",
+        "COINS_500_DESC": "Aumente seu saldo total",
+        "WATCH": "ASSISTIR"
+    },
+    "LEADERBOARD": {
+        "TITLE": "Classificação",
+        "DAILY": "Diário",
+        "WEEKLY": "Semanal",
+        "ALL_TIME": "Geral"
+    },
+    "PROFILE": {
+        "TITLE": "Meu Perfil",
+        "GAMES": "Jogos",
+        "ACCURACY": "Precisão",
+        "BEST_STREAK": "Melhor Sequência",
+        "TOTAL_PTS": "Pts Totais",
+        "ACHIEVEMENTS": "CONQUISTAS"
+    },
+    "PREMIUM": {
+        "TITLE": "Seja Premium",
+        "UNLOCK": "Desbloqueie o QuizLoop Pro",
+        "DESCRIPTION": "Tenha a melhor experiência de aprendizado sem interrupções.",
+        "NO_ADS": "Sem anúncios nunca",
+        "EXCLUSIVE_PACKS": "Pacotes exclusivos de perguntas premium",
+        "INFINITE_LIVES": "Vidas infinitas",
+        "MONTHLY": "Mensal",
+        "MONTHLY_PRICE": "R$14,90 / mês",
+        "POPULAR": "POPULAR",
+        "YEARLY": "Anual",
+        "YEARLY_PRICE": "R$99,90 / ano",
+        "SAVE_PERCENT": "ECONOMIZE 45%",
+        "LIFETIME": "Vitalício",
+        "LIFETIME_PRICE": "R$199,90 uma vez",
+        "FREE_TRIAL": "INICIAR TESTE GRÁTIS DE 7 DIAS"
+    },
+    "SETTINGS": {
+        "TITLE": "Configurações",
+        "GAMEPLAY": "JOGABILIDADE",
+        "SOUND": "Efeitos Sonoros",
+        "VIBRATION": "Vibração",
+        "NOTIFICATIONS_SECTION": "NOTIFICAÇÕES",
+        "DAILY_REMINDERS": "Lembretes Diários",
+        "ACCOUNT": "CONTA & LEGAL",
+        "PRIVACY_POLICY": "Política de Privacidade",
+        "TERMS": "Termos de Uso",
+        "DELETE_DATA": "Excluir Dados",
+        "LANGUAGE": "Idioma",
+        "VERSION": "QuizLoop v1.0.0"
+    },
+    "COMMON": {
+        "APP_NAME": "QuizLoop"
+    },
+    "PRIVACY": {
+        "TITLE": "Politica de Privacidade",
+        "INTRO": "Esta Politica de Privacidade explica como o QuizLoop coleta, usa e protege seus dados.",
+        "DATA_COLLECTED_TITLE": "Dados Coletados",
+        "DATA_COLLECTED_BODY": "Coletamos eventos de analytics, pontuacoes de quiz, estatisticas de sequencia/perfil e diagnosticos tecnicos basicos para melhorar o app.",
+        "DATA_STORAGE_TITLE": "Como os Dados Sao Armazenados",
+        "DATA_STORAGE_BODY": "Os dados sao armazenados localmente no dispositivo e podem ser sincronizados opcionalmente com a nuvem via Firebase.",
+        "THIRD_PARTIES_TITLE": "Servicos de Terceiros",
+        "THIRD_PARTIES_BODY": "O QuizLoop integra Firebase Analytics, Firebase Authentication e AdMob. Esses provedores podem processar dados conforme suas politicas.",
+        "USER_RIGHTS_TITLE": "Seus Direitos",
+        "USER_RIGHTS_BODY": "Voce pode solicitar exportacao ou exclusao de dados a qualquer momento entrando em contato com o suporte.",
+        "GDPR_TITLE": "GDPR e Consentimento",
+        "GDPR_BODY": "O QuizLoop solicita consentimento antes de anuncios personalizados e oferece controles alinhados aos principios da GDPR.",
+        "COPPA_TITLE": "Privacidade Infantil (COPPA)",
+        "COPPA_BODY": "O QuizLoop nao e direcionado a criancas menores de 13 anos e nao coleta intencionalmente dados pessoais de criancas.",
+        "CONTACT_TITLE": "Contato",
+        "CONTACT_BODY": "Para solicitacoes de privacidade: privacy@quizloop.app",
+        "LAST_UPDATED": "Ultima atualizacao: 16 de fevereiro de 2026"
+    },
+    "TERMS": {
+        "TITLE": "Termos de Uso",
+        "INTRO": "Estes Termos regem o uso do QuizLoop.",
+        "ACCEPTANCE_TITLE": "Aceitacao dos Termos",
+        "ACCEPTANCE_BODY": "Ao usar o QuizLoop, voce concorda com estes Termos e com futuras atualizacoes publicadas no app.",
+        "SERVICE_DESCRIPTION_TITLE": "Descricao do Servico",
+        "SERVICE_DESCRIPTION_BODY": "O QuizLoop oferece quizzes, rankings, acompanhamento de perfil e recursos opcionais de recompensas/premium.",
+        "ACCOUNTS_TITLE": "Contas de Usuario",
+        "ACCOUNTS_BODY": "Voce pode jogar anonimamente ou entrar com Google para sincronizacao. Voce e responsavel pela atividade da sua conta.",
+        "PURCHASES_TITLE": "Compras no App",
+        "PURCHASES_BODY": "Compras sao nao reembolsaveis, salvo quando exigido por lei. O Premium remove anuncios e desbloqueia beneficios extras.",
+        "PROHIBITED_TITLE": "Condutas Proibidas",
+        "PROHIBITED_BODY": "E proibido abusar do servico, burlar sistemas, automatizar trapacas, explorar falhas ou prejudicar outros usuarios.",
+        "WARRANTIES_TITLE": "Isencao de Garantias",
+        "WARRANTIES_BODY": "O QuizLoop e fornecido \"como esta\", sem garantia de disponibilidade ininterrupta, precisao ou adequacao a um fim especifico.",
+        "LIABILITY_TITLE": "Limitacao de Responsabilidade",
+        "LIABILITY_BODY": "Na extensao maxima permitida por lei, o QuizLoop nao se responsabiliza por danos indiretos, incidentais ou consequenciais.",
+        "CHANGES_TITLE": "Alteracoes nos Termos",
+        "CHANGES_BODY": "Podemos atualizar estes Termos periodicamente. O uso continuo do app apos mudancas indica aceitacao dos novos Termos.",
+        "CONTACT_TITLE": "Contato",
+        "CONTACT_BODY": "Para assuntos legais: legal@quizloop.app",
+        "LAST_UPDATED": "Ultima atualizacao: 16 de fevereiro de 2026"
+    }
+}

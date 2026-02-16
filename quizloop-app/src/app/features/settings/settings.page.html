@@ -1,0 +1,68 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ql-h3">{{ 'SETTINGS.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in">
+        <span class="ql-section-title">{{ 'SETTINGS.GAMEPLAY' | translate }}</span>
+        <ion-list lines="none" class="ion-no-padding" style="background: transparent;">
+            <div class="ql-card"
+                style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <span class="ql-body">{{ 'SETTINGS.SOUND' | translate }}</span>
+                <ion-toggle slot="end" [checked]="true" mode="md"></ion-toggle>
+            </div>
+            <div class="ql-card"
+                style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <span class="ql-body">{{ 'SETTINGS.VIBRATION' | translate }}</span>
+                <ion-toggle slot="end" [checked]="true" mode="md"></ion-toggle>
+            </div>
+        </ion-list>
+
+        <span class="ql-section-title">{{ 'SETTINGS.LANGUAGE' | translate }}</span>
+        <div class="ql-card"
+            style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;"
+            (click)="toggleLanguage()">
+            <span class="ql-body">{{ currentLanguageName() }}</span>
+            <span style="color: var(--ql-text-secondary);">🌐</span>
+        </div>
+
+        <span class="ql-section-title">{{ 'SETTINGS.NOTIFICATIONS_SECTION' | translate }}</span>
+        <ion-list lines="none" class="ion-no-padding" style="background: transparent;">
+            <div class="ql-card"
+                style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <span class="ql-body">{{ 'SETTINGS.DAILY_REMINDERS' | translate }}</span>
+                <ion-toggle slot="end" [checked]="true" mode="md"></ion-toggle>
+            </div>
+        </ion-list>
+
+        <span class="ql-section-title">{{ 'SETTINGS.ACCOUNT' | translate }}</span>
+        <ion-list lines="none" class="ion-no-padding" style="background: transparent;">
+            <div class="ql-card"
+                style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;"
+                (click)="goToPrivacy()">
+                <span class="ql-body">{{ 'SETTINGS.PRIVACY_POLICY' | translate }}</span>
+                <span style="color: var(--ql-text-secondary);">→</span>
+            </div>
+            <div class="ql-card"
+                style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;"
+                (click)="goToTerms()">
+                <span class="ql-body">{{ 'SETTINGS.TERMS' | translate }}</span>
+                <span style="color: var(--ql-text-secondary);">→</span>
+            </div>
+            <div class="ql-card"
+                style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;"
+                (click)="requestDataDeletion()">
+                <span class="ql-body" style="color: var(--ql-error);">{{ 'SETTINGS.DELETE_DATA' | translate }}</span>
+            </div>
+        </ion-list>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <p class="ql-caption">{{ 'SETTINGS.VERSION' | translate }}</p>
+        </div>
+    </div>
+</ion-content>

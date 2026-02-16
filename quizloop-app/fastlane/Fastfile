@@ -1,0 +1,29 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build debug APK and deploy to internal testing"
+  lane :internal do
+    # TODO: Configure signing and Google Play credentials
+    puts "Internal testing deploy lane - configure signing first"
+  end
+
+  desc "Build release and deploy to production"
+  lane :production do
+    # TODO: Configure signing, versioning, and Google Play credentials
+    puts "Production deploy lane - configure signing first"
+  end
+end
+
+platform :ios do
+  desc "Build and deploy to TestFlight"
+  lane :internal do
+    # TODO: Configure signing and App Store Connect credentials
+    puts "TestFlight deploy lane - configure signing first"
+  end
+
+  desc "Build and deploy to App Store"
+  lane :production do
+    # TODO: Configure signing, versioning, and App Store Connect credentials
+    puts "App Store deploy lane - configure signing first"
+  end
+end

@@ -1,0 +1,51 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/settings" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ql-h3">{{ 'PRIVACY.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in legal-content">
+        <p class="ql-body">{{ 'PRIVACY.INTRO' | translate }}</p>
+
+        <section class="ql-card">
+            <h2 class="ql-h3">{{ 'PRIVACY.DATA_COLLECTED_TITLE' | translate }}</h2>
+            <p class="ql-body-sm">{{ 'PRIVACY.DATA_COLLECTED_BODY' | translate }}</p>
+        </section>
+
+        <section class="ql-card">
+            <h2 class="ql-h3">{{ 'PRIVACY.DATA_STORAGE_TITLE' | translate }}</h2>
+            <p class="ql-body-sm">{{ 'PRIVACY.DATA_STORAGE_BODY' | translate }}</p>
+        </section>
+
+        <section class="ql-card">
+            <h2 class="ql-h3">{{ 'PRIVACY.THIRD_PARTIES_TITLE' | translate }}</h2>
+            <p class="ql-body-sm">{{ 'PRIVACY.THIRD_PARTIES_BODY' | translate }}</p>
+        </section>
+
+        <section class="ql-card">
+            <h2 class="ql-h3">{{ 'PRIVACY.USER_RIGHTS_TITLE' | translate }}</h2>
+            <p class="ql-body-sm">{{ 'PRIVACY.USER_RIGHTS_BODY' | translate }}</p>
+        </section>
+
+        <section class="ql-card">
+            <h2 class="ql-h3">{{ 'PRIVACY.GDPR_TITLE' | translate }}</h2>
+            <p class="ql-body-sm">{{ 'PRIVACY.GDPR_BODY' | translate }}</p>
+        </section>
+
+        <section class="ql-card">
+            <h2 class="ql-h3">{{ 'PRIVACY.COPPA_TITLE' | translate }}</h2>
+            <p class="ql-body-sm">{{ 'PRIVACY.COPPA_BODY' | translate }}</p>
+        </section>
+
+        <section class="ql-card">
+            <h2 class="ql-h3">{{ 'PRIVACY.CONTACT_TITLE' | translate }}</h2>
+            <p class="ql-body-sm">{{ 'PRIVACY.CONTACT_BODY' | translate }}</p>
+        </section>
+
+        <p class="ql-caption">{{ 'PRIVACY.LAST_UPDATED' | translate }}</p>
+    </div>
+</ion-content>

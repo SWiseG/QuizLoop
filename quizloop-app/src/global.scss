@@ -1,0 +1,393 @@
+/*
+ * QuizLoop Global Styles
+ * App-wide styles, component utilities, and Ionic overrides
+ */
+
+// Ionic core CSS
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+
+// Optional Ionic CSS utilities
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+
+// ============================================
+// GLOBAL BASE
+// ============================================
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--ql-font-family);
+    background: var(--ql-bg);
+    color: var(--ql-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// ============================================
+// TYPOGRAPHY UTILITIES
+// ============================================
+.ql-h1 {
+    font: var(--ql-font-h1);
+    color: var(--ql-text-primary);
+}
+
+.ql-h2 {
+    font: var(--ql-font-h2);
+    color: var(--ql-text-primary);
+}
+
+.ql-h3 {
+    font: var(--ql-font-h3);
+    color: var(--ql-text-primary);
+}
+
+.ql-body {
+    font: var(--ql-font-body);
+    color: var(--ql-text-primary);
+}
+
+.ql-body-sm {
+    font: var(--ql-font-body-sm);
+    color: var(--ql-text-secondary);
+}
+
+.ql-caption {
+    font: var(--ql-font-caption);
+    color: var(--ql-text-secondary);
+}
+
+// ============================================
+// CARD STYLES
+// ============================================
+.ql-card {
+    background: var(--ql-surface);
+    border-radius: var(--ql-radius-md);
+    padding: var(--ql-space-md);
+    box-shadow: var(--ql-shadow-sm);
+    transition: transform var(--ql-transition-fast), box-shadow var(--ql-transition-fast);
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.ql-card-elevated {
+    @extend .ql-card;
+    background: var(--ql-surface-elevated);
+    box-shadow: var(--ql-shadow-md);
+}
+
+// ============================================
+// BUTTON STYLES
+// ============================================
+.ql-btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--ql-space-sm) var(--ql-space-lg);
+    background: var(--ql-gradient-primary);
+    color: #FFFFFF;
+    font: var(--ql-font-button);
+    border: none;
+    border-radius: var(--ql-radius-pill);
+    cursor: pointer;
+    transition: all var(--ql-transition-fast);
+    box-shadow: var(--ql-shadow-glow-primary);
+
+    &:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+}
+
+.ql-btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--ql-space-sm) var(--ql-space-lg);
+    background: transparent;
+    color: var(--ql-primary);
+    font: var(--ql-font-button);
+    border: 2px solid var(--ql-primary);
+    border-radius: var(--ql-radius-pill);
+    cursor: pointer;
+    transition: all var(--ql-transition-fast);
+
+    &:active {
+        background: rgba(var(--ql-primary-rgb), 0.1);
+        transform: scale(0.97);
+    }
+}
+
+.ql-btn-accent {
+    @extend .ql-btn-primary;
+    background: var(--ql-gradient-accent);
+    box-shadow: var(--ql-shadow-glow-accent);
+}
+
+// ============================================
+// ANSWER OPTION CARD
+// ============================================
+.ql-answer-option {
+    display: flex;
+    align-items: center;
+    gap: var(--ql-space-sm);
+    padding: var(--ql-space-md);
+    background: var(--ql-answer-default-bg);
+    border: 2px solid transparent;
+    border-radius: var(--ql-radius-md);
+    font: var(--ql-font-body);
+    color: var(--ql-text-primary);
+    cursor: pointer;
+    transition: all var(--ql-transition-fast);
+
+    &:active {
+        transform: scale(0.98);
+    }
+
+    &.selected {
+        background: var(--ql-answer-selected-bg);
+        border-color: var(--ql-answer-selected-border);
+    }
+
+    &.correct {
+        background: var(--ql-answer-correct-bg);
+        border-color: var(--ql-answer-correct-border);
+    }
+
+    &.wrong {
+        background: var(--ql-answer-wrong-bg);
+        border-color: var(--ql-answer-wrong-border);
+    }
+
+    .ql-answer-label {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--ql-radius-full);
+        background: rgba(255, 255, 255, 0.08);
+        font: var(--ql-font-caption);
+        flex-shrink: 0;
+    }
+}
+
+// ============================================
+// STREAK BADGE
+// ============================================
+.ql-streak-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ql-space-xs);
+    padding: var(--ql-space-xxs) var(--ql-space-sm);
+    background: rgba(var(--ql-accent-rgb), 0.15);
+    border: 1px solid rgba(var(--ql-accent-rgb), 0.3);
+    border-radius: var(--ql-radius-pill);
+    color: var(--ql-accent);
+    font: var(--ql-font-badge);
+
+    .ql-streak-icon {
+        font-size: 16px;
+    }
+}
+
+// ============================================
+// STAT CARD
+// ============================================
+.ql-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ql-space-xxs);
+    padding: var(--ql-space-md);
+    background: var(--ql-surface);
+    border-radius: var(--ql-radius-md);
+    min-width: 80px;
+
+    .ql-stat-value {
+        font: var(--ql-font-h2);
+        color: var(--ql-primary);
+    }
+
+    .ql-stat-label {
+        font: var(--ql-font-caption);
+        color: var(--ql-text-secondary);
+    }
+}
+
+// ============================================
+// PROGRESS BAR
+// ============================================
+.ql-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    overflow: hidden;
+
+    .ql-progress-fill {
+        height: 100%;
+        background: var(--ql-gradient-primary);
+        border-radius: 3px;
+        transition: width var(--ql-transition-normal);
+    }
+}
+
+// ============================================
+// TIMER BAR
+// ============================================
+.ql-timer-bar {
+    @extend .ql-progress-bar;
+    height: 4px;
+
+    .ql-timer-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 1s linear;
+
+        &.safe {
+            background: var(--ql-success);
+        }
+
+        &.warning {
+            background: var(--ql-accent);
+        }
+
+        &.danger {
+            background: var(--ql-error);
+        }
+    }
+}
+
+// ============================================
+// AD CONTAINERS
+// ============================================
+.ql-ad-banner-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    background: var(--ql-surface);
+    border-radius: var(--ql-radius-sm);
+    margin: var(--ql-space-md) 0;
+    overflow: hidden;
+}
+
+// ============================================
+// PAGE LAYOUT UTILITIES
+// ============================================
+.ql-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: var(--ql-space-md);
+    padding-top: var(--ql-space-lg);
+}
+
+.ql-page-center {
+    @extend .ql-page;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.ql-section-title {
+    font: var(--ql-font-caption);
+    color: var(--ql-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--ql-space-sm);
+}
+
+// ============================================
+// ANIMATIONS
+// ============================================
+@keyframes ql-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ql-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes ql-slide-up {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes ql-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes ql-count-glow {
+    0% {
+        text-shadow: none;
+    }
+
+    50% {
+        text-shadow: 0 0 20px rgba(var(--ql-primary-rgb), 0.5);
+    }
+
+    100% {
+        text-shadow: none;
+    }
+}
+
+.ql-animate-fade-in {
+    animation: ql-fade-in var(--ql-transition-normal) ease-out;
+}
+
+.ql-animate-scale-in {
+    animation: ql-scale-in var(--ql-transition-normal) ease-out;
+}
+
+.ql-animate-pulse {
+    animation: ql-pulse 2s ease-in-out infinite;
+}

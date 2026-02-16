@@ -1,0 +1,27 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ql-h3">{{ 'MODE_SELECT.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in">
+        <div class="ql-card" style="margin-bottom: 1rem;" (click)="selectMode('daily')">
+            <span class="ql-h3">{{ 'MODE_SELECT.DAILY' | translate }}</span>
+            <p class="ql-body-sm">{{ 'MODE_SELECT.DAILY_DESC' | translate }}</p>
+        </div>
+
+        <div class="ql-card" style="margin-bottom: 1rem;" (click)="selectMode('classic')">
+            <span class="ql-h3">{{ 'MODE_SELECT.CLASSIC' | translate }}</span>
+            <p class="ql-body-sm">{{ 'MODE_SELECT.CLASSIC_DESC' | translate }}</p>
+        </div>
+
+        <div class="ql-card" style="margin-bottom: 1rem;" (click)="selectMode('category')">
+            <span class="ql-h3">{{ 'MODE_SELECT.CATEGORY' | translate }}</span>
+            <p class="ql-body-sm">{{ 'MODE_SELECT.CATEGORY_DESC' | translate }}</p>
+        </div>
+    </div>
+</ion-content>

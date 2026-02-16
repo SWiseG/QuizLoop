@@ -1,0 +1,110 @@
+// QuizLoop Design System
+// Based on QUIZLOOP_MONEY_PLAN.md design tokens
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+// ============================================
+// COLOR TOKENS
+// ============================================
+:root {
+  // Brand colors
+  --ql-bg: #0E1116;
+  --ql-surface: #171B22;
+  --ql-surface-elevated: #1E2330;
+  --ql-primary: #2EC4B6;
+  --ql-primary-rgb: 46, 196, 182;
+  --ql-accent: #FF9F1C;
+  --ql-accent-rgb: 255, 159, 28;
+  --ql-success: #4CAF50;
+  --ql-success-rgb: 76, 175, 80;
+  --ql-error: #FF4D6D;
+  --ql-error-rgb: 255, 77, 109;
+  --ql-text-primary: #F5F7FA;
+  --ql-text-secondary: #AAB2BF;
+  --ql-text-disabled: #626A78;
+
+  // Answer option states
+  --ql-answer-default-bg: #1E2330;
+  --ql-answer-selected-bg: rgba(46, 196, 182, 0.15);
+  --ql-answer-selected-border: #2EC4B6;
+  --ql-answer-correct-bg: rgba(76, 175, 80, 0.15);
+  --ql-answer-correct-border: #4CAF50;
+  --ql-answer-wrong-bg: rgba(255, 77, 109, 0.15);
+  --ql-answer-wrong-border: #FF4D6D;
+
+  // Gradients
+  --ql-gradient-primary: linear-gradient(135deg, #2EC4B6 0%, #1A9E92 100%);
+  --ql-gradient-accent: linear-gradient(135deg, #FF9F1C 0%, #E88A0E 100%);
+  --ql-gradient-card: linear-gradient(145deg, #1E2330 0%, #171B22 100%);
+
+  // Shadows
+  --ql-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --ql-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --ql-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --ql-shadow-glow-primary: 0 0 20px rgba(46, 196, 182, 0.3);
+  --ql-shadow-glow-accent: 0 0 20px rgba(255, 159, 28, 0.3);
+
+  // ============================================
+  // SPACING SCALE
+  // ============================================
+  --ql-space-xxs: 4px;
+  --ql-space-xs: 8px;
+  --ql-space-sm: 12px;
+  --ql-space-md: 16px;
+  --ql-space-lg: 24px;
+  --ql-space-xl: 32px;
+  --ql-space-xxl: 48px;
+
+  // ============================================
+  // RADIUS SCALE
+  // ============================================
+  --ql-radius-sm: 8px;
+  --ql-radius-md: 12px;
+  --ql-radius-lg: 16px;
+  --ql-radius-pill: 24px;
+  --ql-radius-full: 50%;
+
+  // ============================================
+  // TYPOGRAPHY
+  // ============================================
+  --ql-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --ql-font-h1: 600 28px/34px var(--ql-font-family);
+  --ql-font-h2: 600 22px/28px var(--ql-font-family);
+  --ql-font-h3: 600 18px/24px var(--ql-font-family);
+  --ql-font-body: 400 16px/24px var(--ql-font-family);
+  --ql-font-body-sm: 400 14px/20px var(--ql-font-family);
+  --ql-font-caption: 500 13px/18px var(--ql-font-family);
+  --ql-font-button: 600 16px/20px var(--ql-font-family);
+  --ql-font-badge: 700 12px/16px var(--ql-font-family);
+
+  // ============================================
+  // MOTION
+  // ============================================
+  --ql-transition-fast: 180ms ease-out;
+  --ql-transition-normal: 250ms ease-out;
+  --ql-transition-slow: 350ms ease-out;
+
+  // ============================================
+  // IONIC OVERRIDES (dark theme)
+  // ============================================
+  --ion-background-color: var(--ql-bg);
+  --ion-background-color-rgb: 14, 17, 22;
+  --ion-text-color: var(--ql-text-primary);
+  --ion-text-color-rgb: 245, 247, 250;
+  --ion-color-primary: var(--ql-primary);
+  --ion-color-primary-rgb: var(--ql-primary-rgb);
+  --ion-color-primary-shade: #28AC9F;
+  --ion-color-primary-tint: #43CABD;
+  --ion-color-secondary: var(--ql-accent);
+  --ion-color-secondary-rgb: var(--ql-accent-rgb);
+  --ion-color-success: var(--ql-success);
+  --ion-color-success-rgb: var(--ql-success-rgb);
+  --ion-color-danger: var(--ql-error);
+  --ion-color-danger-rgb: var(--ql-error-rgb);
+  --ion-card-background: var(--ql-surface);
+  --ion-item-background: var(--ql-surface);
+  --ion-toolbar-background: var(--ql-surface);
+
+  --ion-font-family: var(--ql-font-family);
+}

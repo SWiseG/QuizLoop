@@ -1,0 +1,333 @@
+# Prompt: Complete Phase 5 — Remaining Tasks
+
+You are working on the **QuizLoop** mobile app project. Your job is to complete 3 remaining tasks from Phase 5. Read the entire prompt before writing any code.
+
+---
+
+## Project Context
+
+| Item | Value |
+|---|---|
+| **Frontend** | Angular 20, Ionic 8, Capacitor 8.1 — directory: `c:\Projects\QuizLoop\quizloop-app` |
+| **Backend** | ASP.NET Core 10 (.NET 10) — directory: `c:\Projects\QuizLoop\backend` |
+| **State** | Angular Signals (no NgRx) |
+| **i18n** | `@ngx-translate/core@17` + `@ngx-translate/http-loader@17` already configured |
+| **Build check** | `ng build --configuration=development` passes with zero errors |
+
+### Services Already Created (do NOT recreate)
+
+All in `src/app/core/services/`:
+
+| Service | Key methods you'll need |
+|---|---|
+| `AdService` | `showRewarded(type: string)`, `showInterstitial()`, `showBanner()`, `hideBanner()`, `initialize()`, `incrementRoundsPlayed()` |
+| `AnalyticsService` | `logEvent(event: AnalyticsEvent, params?)`, `setScreen(name)` — typed events: `app_open`, `onboarding_complete`, `quiz_start`, `question_answered`, `quiz_complete`, `rewarded_offer_shown`, `rewarded_ad_watched`, `interstitial_shown`, `banner_impression`, `purchase_started`, `purchase_completed` |
+| `AuthService` | `initialize()`, `signInAnonymously()`, `signInWithGoogle()`, `signOut()` — signals: `userId`, `isAnonymous`, `isAuthenticated` |
+| `ConsentService` | `accept()`, `decline()`, `hasConsented()` — already wired to consent.page.ts |
+| `UserProfileService` | `addCoins(amount)`, `updateStreak(won)`, `incrementGamesPlayed(correct, total)` — signal: `userProfile` |
+| `QuizStateService` | `startNewRound(mode)`, `answerQuestion(index)` — signals: `score`, `correctCount`, `totalQuestions`, `currentQuestion` |
+| `TranslationService` | `setLanguage(lang)`, `currentLanguage` signal |
+
+### Backend Entities (in `QuizLoop.Domain/Entities/`)
+
+```csharp
+// UserProfile.cs
+public class UserProfile {
+    public string Id { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string Locale { get; set; }
+    public int StreakCurrent { get; set; }
+    public int StreakBest { get; set; }
+    public int TotalGames { get; set; }
+    public double AccuracyPct { get; set; }
+    public int Coins { get; set; }
+    public bool HasPremium { get; set; }
+}
+
+// Round.cs
+public class Round {
+    public string Id { get; set; }
+    public string UserId { get; set; }
+    public string Mode { get; set; }
+    public int Score { get; set; }
+    public int CorrectCount { get; set; }
+    public DateTime StartedAt { get; set; }
+    public DateTime EndedAt { get; set; }
+}
+```
+
+---
+
+## Task 1: Wire Rewards and Premium Pages + Inject Analytics Into Key Flows
+
+### 1A. Modify `rewards.page.ts`
+
+**File:** `c:\Projects\QuizLoop\quizloop-app\src\app\features\rewards\rewards.page.ts`
+
+**Current state:**
+
+```typescript
+export class RewardsPage {
+    watchAd(rewardType: string) {
+        console.log('Watching rewarded ad for:', rewardType);
+    }
+}
+```
+
+**Required changes:**
+- Add `inject` from `@angular/core`
+- Inject `AdService`, `UserProfileService`, `AnalyticsService`
+- Replace `watchAd()` with this logic:
+  1. Call `analytics.logEvent('rewarded_offer_shown', { reward_type: rewardType })`
+  2. Call `const result = await adService.showRewarded(rewardType)`
+  3. If `result` is truthy and `rewardType === 'coins'`, call `userService.addCoins(500)`
+  4. If `rewardType === 'life'`, just log for now (TODO marker)
+- Make `watchAd` async
+
+### 1B. Modify `premium.page.ts`
+
+**File:** `c:\Projects\QuizLoop\quizloop-app\src\app\features\premium\premium.page.ts`
+
+**Current state:**
+
+```typescript
+export class PremiumPage {
+    buy(plan: string) {
+        console.log('Purchasing plan:', plan);
+    }
+}
+```
+
+**Required changes:**
+- Inject `AnalyticsService`
+- In `buy()`, call `analytics.logEvent('purchase_started', { plan_type: plan })` before the console.log
+- Add a `// TODO: Integrate Capacitor IAP plugin` comment
+
+### 1C. Inject Analytics Into Splash, Onboarding, and Quiz Pages
+
+**1C-i. `splash.page.ts`** — `c:\Projects\QuizLoop\quizloop-app\src\app\features\onboarding\splash\splash.page.ts`
+
+Current splash navigates to `/consent` after 2 seconds. Change to:
+- Inject `AuthService`, `AnalyticsService`, `AdService`
+- Replace the constructor `setTimeout` with an `async initApp()` method that:
+  1. Calls `await this.auth.initialize()`
+  2. Calls `await this.adService.initialize()`
+  3. Calls `await this.analytics.logEvent('app_open')`
+  4. Then navigates to `/consent` (with a `setTimeout` of 1500ms for splash visibility)
+
+**1C-ii. `onboarding.page.ts`** — `c:\Projects\QuizLoop\quizloop-app\src\app\features\onboarding\onboarding\onboarding.page.ts`
+
+- Inject `AnalyticsService`
+- In the `finish()` method, call `this.analytics.logEvent('onboarding_complete')` before navigating
+
+**1C-iii. `quiz-state.service.ts`** — `c:\Projects\QuizLoop\quizloop-app\src\app\core\services\quiz-state.service.ts`
+
+> [!IMPORTANT]
+> This file already has working quiz logic with Angular Signals. **Do NOT break existing methods.** Only add analytics calls.
+
+- Inject `AnalyticsService` and `AdService`
+- In `startNewRound(mode)`, after the existing logic, call:
+  ```typescript
+  this.analytics.logEvent('quiz_start', { category: mode, mode });
+  ```
+- In `answerQuestion(index)`, after recording the answer, call:
+  ```typescript
+  this.analytics.logEvent('question_answered', {
+      question_id: this.currentIndex(),
+      is_correct: isCorrect,
+      time_remaining: this.timeLeft()
+  });
+  ```
+- If there's a method that completes a round (navigates to results), add:
+  ```typescript
+  this.adService.incrementRoundsPlayed();
+  this.analytics.logEvent('quiz_complete', {
+      score: this.score(),
+      correct_count: this.correctCount(),
+      total_questions: this.totalQuestions()
+  });
+  ```
+
+> [!WARNING]
+> Read the full `quiz-state.service.ts` before editing. Understand how `startNewRound`, `answerQuestion`, and round completion work. The file uses signals and timers — be careful not to break them.
+
+---
+
+## Task 2: Backend JWT Authentication
+
+### 2A. Install NuGet Package
+
+Run from `c:\Projects\QuizLoop\backend\QuizLoop.Api`:
+
+```powershell
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 10.0.0
+```
+
+### 2B. Modify `Program.cs`
+
+**File:** `c:\Projects\QuizLoop\backend\QuizLoop.Api\Program.cs`
+
+**Current state:** Has `AddControllers`, `AddSwaggerGen`, `AddDbContext<AppDbContext>`, `AddCors`. Does NOT have authentication.
+
+**Add BEFORE `var app = builder.Build()`:**
+
+```csharp
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+// ...existing code...
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var firebaseProjectId = builder.Configuration["Firebase:ProjectId"] ?? "quizloop-dev";
+        options.Authority = $"https://securetoken.google.com/{firebaseProjectId}";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = $"https://securetoken.google.com/{firebaseProjectId}",
+            ValidateAudience = true,
+            ValidAudience = firebaseProjectId,
+            ValidateLifetime = true,
+        };
+    });
+```
+
+**Add `app.UseAuthentication();` BEFORE `app.UseAuthorization();`:**
+
+```csharp
+app.UseHttpsRedirection();
+app.UseCors("dev");
+app.UseAuthentication();  // <-- ADD THIS LINE
+app.UseAuthorization();
+app.MapControllers();
+```
+
+### 2C. Add Firebase config to `appsettings.json`
+
+**File:** `c:\Projects\QuizLoop\backend\QuizLoop.Api\appsettings.json`
+
+Add a `Firebase` section:
+
+```json
+{
+  "Firebase": {
+    "ProjectId": "quizloop-dev"
+  }
+}
+```
+
+---
+
+## Task 3: Backend Controllers
+
+> [!IMPORTANT]
+> The `Controllers` folder does NOT exist yet in `QuizLoop.Api`. Create it.
+
+### 3A. Create `LeaderboardController.cs`
+
+**File:** `c:\Projects\QuizLoop\backend\QuizLoop.Api\Controllers\LeaderboardController.cs`
+
+Requirements:
+- Namespace: `QuizLoop.Api.Controllers`
+- Route prefix: `[Route("api/[controller]")]`
+- Inject `AppDbContext` via constructor DI
+- **Endpoint 1:** `GET /api/leaderboard?period=daily|weekly|alltime`
+  - Query `Round` table
+  - For `daily`: filter `StartedAt >= today midnight UTC`
+  - For `weekly`: filter `StartedAt >= 7 days ago`
+  - For `alltime`: no date filter
+  - Group by `UserId`, sum `Score`, order by sum descending, take top 50
+  - Return list of `{ rank, userId, totalScore, gamesPlayed }`
+  - This endpoint is **anonymous** (no `[Authorize]`)
+- **Endpoint 2:** `POST /api/leaderboard/submit`
+  - Requires `[Authorize]`
+  - Accept body: `{ mode: string, score: int, correctCount: int }` (create a DTO record)
+  - Get the user's Firebase UID from `User.FindFirst(ClaimTypes.NameIdentifier)?.Value`
+  - Create a new `Round` entity and save to DB
+  - Return the created round
+
+### 3B. Create `UserSyncController.cs`
+
+**File:** `c:\Projects\QuizLoop\backend\QuizLoop.Api\Controllers\UserSyncController.cs`
+
+Requirements:
+- Namespace: `QuizLoop.Api.Controllers`
+- Route prefix: `[Route("api/user")]`
+- All endpoints require `[Authorize]`
+- Inject `AppDbContext`
+- Helper: get Firebase UID from `User.FindFirst(ClaimTypes.NameIdentifier)?.Value`
+- **Endpoint 1:** `GET /api/user/profile`
+  - Look up `UserProfile` by Firebase UID
+  - If not found, create a new one with default values and save
+  - Return the UserProfile
+- **Endpoint 2:** `POST /api/user/sync`
+  - Accept body: `{ streakCurrent, streakBest, totalGames, accuracyPct, coins }` (create a DTO record)
+  - Merge strategy: take the **max** of `streakBest`, `totalGames`, `coins`; take client's `streakCurrent` and `accuracyPct`
+  - Upsert and save
+  - Return the merged profile
+
+### DTO Records
+
+Create a DTOs file or inline records. Suggested:
+
+```csharp
+public record SubmitScoreDto(string Mode, int Score, int CorrectCount);
+public record SyncProfileDto(int StreakCurrent, int StreakBest, int TotalGames, double AccuracyPct, int Coins);
+```
+
+---
+
+## Execution Order
+
+1. **Task 1A** — Wire `rewards.page.ts`
+2. **Task 1B** — Wire `premium.page.ts`
+3. **Task 1C-i** — Wire `splash.page.ts` (auth + analytics + ad init)
+4. **Task 1C-ii** — Wire `onboarding.page.ts` (analytics)
+5. **Task 1C-iii** — Wire `quiz-state.service.ts` (analytics + ad increment)
+6. Run `npx ng build --configuration=development` — must pass with zero errors
+7. **Task 2A** — Install JWT NuGet package
+8. **Task 2B** — Modify `Program.cs` for JWT
+9. **Task 2C** — Add Firebase config to `appsettings.json`
+10. **Task 3A** — Create `LeaderboardController.cs`
+11. **Task 3B** — Create `UserSyncController.cs`
+12. Run `dotnet build QuizLoop.Api\QuizLoop.Api.csproj` from `c:\Projects\QuizLoop\backend` — must pass
+
+---
+
+## Verification
+
+### Frontend
+
+```powershell
+cd c:\Projects\QuizLoop\quizloop-app
+npx ng build --configuration=development
+```
+
+Expected: zero errors. Only warning allowed: `empty-glob` from Stencil internals.
+
+### Backend
+
+```powershell
+cd c:\Projects\QuizLoop\backend
+dotnet build QuizLoop.Api\QuizLoop.Api.csproj
+```
+
+Expected: zero errors.
+
+### Manual (via `ng serve`)
+
+1. Open browser dev tools console
+2. Navigate through splash → consent → onboarding → home
+3. Verify console shows:
+   - `[AuthService] Web fallback: generating local anonymous UID`
+   - `[AdService] AdMob not available (web environment)`
+   - `[Analytics] app_open { ... }`
+   - `[Analytics] onboarding_complete { ... }`
+4. Start a quiz → verify `[Analytics] quiz_start` and `[Analytics] question_answered` logs
+5. Complete quiz → verify `[Analytics] quiz_complete` log
+6. Go to Rewards → click WATCH → verify `[Analytics] rewarded_offer_shown` log
+7. Go to Premium → click any plan → verify `[Analytics] purchase_started` log
+
+> [!CAUTION]
+> **Do NOT modify** any files not mentioned in this prompt. The i18n setup, translation files, design system, and other services are already complete and working.

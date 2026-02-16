@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="QuizLoop.Api/QuizLoop.Api.csproj" />
+  <Project Path="QuizLoop.Application/QuizLoop.Application.csproj" />
+  <Project Path="QuizLoop.Domain/QuizLoop.Domain.csproj" />
+  <Project Path="QuizLoop.Infrastructure/QuizLoop.Infrastructure.csproj" />
+  <Project Path="QuizLoop.Tests/QuizLoop.Tests.csproj" />
+</Solution>

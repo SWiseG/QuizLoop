@@ -1,0 +1,37 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" color="primary"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ql-caption">QUESTION {{ currentIndex() + 1 }}/{{ questions().length }}</ion-title>
+        <ion-buttons slot="end">
+            <button class="ql-btn-secondary" style="padding: 4px 12px; font-size: 12px;" (click)="useHint()">{{
+                'QUIZ.HINT' | translate }}</button>
+        </ion-buttons>
+    </ion-toolbar>
+    <div class="ql-progress-bar">
+        <div class="ql-progress-fill" [style.width.%]="progress() * 100"></div>
+    </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ql-page">
+    <div class="ql-animate-fade-in" *ngIf="currentQuestion()">
+        <!-- Timer -->
+        <div class="ql-timer-bar" style="margin-bottom: 2rem;">
+            <div class="ql-timer-fill" [class.safe]="timeLeft() > 7" [class.warning]="timeLeft() <= 7 && timeLeft() > 3"
+                [class.danger]="timeLeft() <= 3" [style.width.%]="(timeLeft() / 15) * 100"></div>
+        </div>
+
+        <!-- Question Text -->
+        <h1 class="ql-h2" style="margin-bottom: 3rem;">{{ currentQuestion().text }}</h1>
+
+        <!-- Answer Options -->
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div *ngFor="let option of currentQuestion().options; let i = index" class="ql-answer-option"
+                (click)="selectAnswer(i)">
+                <div class="ql-answer-label">{{ ['A','B','C','D'][i] }}</div>
+                <span>{{ option }}</span>
+            </div>
+        </div>
+    </div>
+</ion-content>
