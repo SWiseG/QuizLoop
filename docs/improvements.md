@@ -6,16 +6,6 @@
 
 ## 🏗️ Arquitetura
 
-### 1. Migrar de SQLite para PostgreSQL (Render PostgreSQL free tier)
-
-SQLite no Docker é efêmero — toda vez que o container reinicia, os dados são perdidos. O Render oferece PostgreSQL free tier (256 MB). Basta trocar o provider EF Core:
-
-- Adicionar `Npgsql.EntityFrameworkCore.PostgreSQL`
-- Alterar `UseSqlite(...)` → `UseNpgsql(connectionString)`
-- Setar a connection string via env var no Render
-
----
-
 ### 2. API de perguntas centralizada
 
 Criar um `QuestionsController` no backend com perguntas persistidas no banco, ou integrar com API externa (ex: [Open Trivia Database](https://opentdb.com/api_config.php)). Permite adicionar categorias, dificuldades, e conteúdo em múltiplos idiomas.
