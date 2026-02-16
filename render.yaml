@@ -1,15 +1,10 @@
 services:
   - type: web
     name: quizloop-api
-    runtime: dotnet
+    runtime: docker
     region: oregon
     plan: free
-    buildCommand: cd backend && dotnet publish QuizLoop.Api/QuizLoop.Api.csproj -c Release -o out
-    startCommand: cd backend/out && dotnet QuizLoop.Api.dll
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: ASPNETCORE_URLS
-        value: http://0.0.0.0:10000
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
       - key: Firebase__ProjectId
         value: quizloop-prod
