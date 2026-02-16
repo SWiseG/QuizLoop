@@ -10,13 +10,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure EF Core with SQLite — use absolute path to avoid working directory issues
-var dbPath = Path.Combine(AppContext.BaseDirectory, "quizloop.db");
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? $"Data Source={dbPath}";
+// Configure EF Core — PostgreSQL in production, SQLite in development
+var usePostgres = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL"));
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(connectionString));
+if (usePostgres)
+{
+    var pgConnectionString = Environment.GetEnvironmentVariable("DATABASE_URL")!;
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(pgConnectionString));
+}
+else
+{
+    var dbPath = Path.Combine(AppContext.BaseDirectory, "quizloop.db");
+    var sqliteConnection = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? $"Data Source={dbPath}";
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite(sqliteConnection));
+}
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -70,7 +80,8 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        logger.LogInformation("SQLite DB path: {DbPath}", dbPath);
+        var provider = db.Database.ProviderName ?? "Unknown";
+        logger.LogInformation("Database provider: {Provider}", provider);
         var created = db.Database.EnsureCreated();
         logger.LogInformation("Database EnsureCreated: {Created}", created);
     }

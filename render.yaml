@@ -8,3 +8,14 @@ services:
     envVars:
       - key: Firebase__ProjectId
         value: quizloop-prod
+      - key: DATABASE_URL
+        fromDatabase:
+          name: quizloop-db
+          property: connectionURI
+
+databases:
+  - name: quizloop-db
+    plan: free
+    region: oregon
+    databaseName: quizloop
+    user: quizloop_user
