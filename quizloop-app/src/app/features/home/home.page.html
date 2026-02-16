@@ -1,11 +1,16 @@
 <ion-content [fullscreen]="true" class="ql-page">
-    <div class="ql-animate-fade-in">
+    <div class="doc-body ql-animate-fade-in">
         <!-- Header Area -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <span class="ql-h2">{{ 'COMMON.APP_NAME' | translate }}</span>
-            <div class="ql-streak-badge">
-                <span class="ql-streak-icon">🔥</span>
-                <span>{{ user().streakCurrent }} {{ 'HOME.DAY_STREAK' | translate }}</span>
+            <div class="ql-home-actions">
+                <div class="ql-streak-badge">
+                    <span class="ql-streak-icon">🔥</span>
+                    <span>{{ user().streakCurrent }} {{ 'HOME.DAY_STREAK' | translate }}</span>
+                </div>
+                <button type="button" class="ql-settings-btn" (click)="openSettings()">
+                    {{ 'SETTINGS.TITLE' | translate }}
+                </button>
             </div>
         </div>
 

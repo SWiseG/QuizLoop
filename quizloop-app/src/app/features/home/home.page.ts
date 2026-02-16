@@ -27,4 +27,8 @@ export class HomePage {
     openModeSelect() {
         this.router.navigateByUrl('/mode-select');
     }
+
+    openSettings() {
+        this.router.navigateByUrl('/settings');
+    }
 }

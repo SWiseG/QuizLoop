@@ -380,7 +380,7 @@ body {
     }
 }
 
-.ql-animate-fade-in {
+.doc-body.ql-animate-fade-in {
     animation: ql-fade-in var(--ql-transition-normal) ease-out;
 }
 
@@ -390,4 +390,11 @@ body {
 
 .ql-animate-pulse {
     animation: ql-pulse 2s ease-in-out infinite;
+}
+
+.doc-body {
+    display: block;
+    box-sizing: border-box;
+    padding-block: 8px;
+    padding-inline: 12px;
 }

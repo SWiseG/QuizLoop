@@ -1,0 +1,14 @@
+.ql-home-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ql-settings-btn {
+    background: transparent;
+    border: 1px solid rgba(var(--ql-primary-rgb), 0.4);
+    color: var(--ql-primary);
+    border-radius: var(--ql-radius-pill);
+    padding: 0.35rem 0.7rem;
+    font: var(--ql-font-caption);
+}

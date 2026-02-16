@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.quizloop.app/api',
+  apiUrl: 'https://quizloop-api.onrender.com/api',
   defaultLocale: 'en-US',
   firebase: {
     apiKey: 'AIzaSyC9CWds_m0tmWs_9qpFj92urYABQrmjXq4',

@@ -15,7 +15,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ql-page">
-    <div class="ql-animate-fade-in" *ngIf="currentQuestion()">
+    <div class="doc-body ql-animate-fade-in" *ngIf="currentQuestion()">
         <!-- Timer -->
         <div class="ql-timer-bar" style="margin-bottom: 2rem;">
             <div class="ql-timer-fill" [class.safe]="timeLeft() > 7" [class.warning]="timeLeft() <= 7 && timeLeft() > 3"
