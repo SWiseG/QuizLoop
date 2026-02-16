@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AnalyticsService } from 'src/app/core/services/analytics.service';
 import { AdService } from 'src/app/core/services/ad.service';
+import { ConsentService } from 'src/app/core/services/consent.service';
 
 @Component({
     selector: 'app-splash',
@@ -19,6 +20,7 @@ export class SplashPage {
     private auth = inject(AuthService);
     private analytics = inject(AnalyticsService);
     private adService = inject(AdService);
+    private consentService = inject(ConsentService);
 
     constructor() {
         void this.initApp();
@@ -30,7 +32,8 @@ export class SplashPage {
         await this.analytics.logEvent('app_open');
 
         setTimeout(() => {
-            this.router.navigateByUrl('/consent');
+            const target = this.consentService.hasConsented() ? '/home' : '/consent';
+            this.router.navigateByUrl(target);
         }, 1500);
     }
 }

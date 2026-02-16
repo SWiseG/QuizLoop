@@ -42,6 +42,8 @@ describe('QuizStateService', () => {
             streakCurrent: 0,
             streakBest: 0,
             totalGames: 0,
+            totalCorrect: 0,
+            totalAnswered: 0,
             accuracyPct: 0,
             coins: 0,
             hasPremium: false,

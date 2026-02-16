@@ -5,7 +5,7 @@
         </ion-buttons>
         <ion-title class="ql-h3">{{ 'LEADERBOARD.TITLE' | translate }}</ion-title>
     </ion-toolbar>
-    <ion-segment [(ngModel)]="category" mode="md">
+    <ion-segment [(ngModel)]="category" (ionChange)="onCategoryChange()" mode="md">
         <ion-segment-button value="daily">
             <ion-label>{{ 'LEADERBOARD.DAILY' | translate }}</ion-label>
         </ion-segment-button>
@@ -20,41 +20,38 @@
 
 <ion-content [fullscreen]="true" class="ql-page">
     <div class="doc-body ql-animate-fade-in">
-        <!-- Top 3 Visualization (Placeholder) -->
-        <div
-            style="display: flex; justify-content: space-around; align-items: flex-end; margin-bottom: 2rem; padding: 1rem;">
-            <div style="text-align: center;">
-                <div
-                    style="width: 60px; height: 60px; background: #C0C0C0; border-radius: 50%; margin-bottom: 0.5rem; border: 2px solid silver;">
-                </div>
-                <span class="ql-caption">Player 2</span>
-            </div>
-            <div style="text-align: center;">
-                <div
-                    style="width: 80px; height: 80px; background: #FFD700; border-radius: 50%; margin-bottom: 0.5rem; border: 4px solid gold;">
-                </div>
-                <span class="ql-h3">Player 1</span>
-            </div>
-            <div style="text-align: center;">
-                <div
-                    style="width: 50px; height: 50px; background: #CD7F32; border-radius: 50%; margin-bottom: 0.5rem; border: 2px solid #8c5d2e;">
-                </div>
-                <span class="ql-caption">Player 3</span>
-            </div>
-        </div>
+        <p *ngIf="isLoading()" class="ql-caption lb-loading">Loading rankings...</p>
 
-        <!-- List -->
-        <ion-list lines="none" class="ion-no-padding" style="background: transparent;">
-            <div *ngFor="let i of [4,5,6,7,8,9,10]" class="ql-card"
-                style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 1rem;">
-                <span class="ql-h3" style="width: 30px; color: var(--ql-text-secondary);">{{ i }}</span>
-                <div style="width: 40px; height: 40px; background: var(--ql-surface-elevated); border-radius: 50%;">
+        <p *ngIf="!isLoading() && entries().length === 0" class="ql-caption lb-empty">
+            No ranking data yet.
+        </p>
+
+        <div *ngIf="!isLoading() && entries().length > 0">
+            <div class="lb-podium">
+                <div class="lb-podium-item">
+                    <div class="lb-medal lb-medal-silver"></div>
+                    <span class="ql-caption">{{ formatTopLabel(1) }}</span>
                 </div>
-                <div style="flex: 1;">
-                    <span class="ql-body">Quiz Master {{ i }}</span>
-                    <p class="ql-caption">12,450 pts</p>
+                <div class="lb-podium-item">
+                    <div class="lb-medal lb-medal-gold"></div>
+                    <span class="ql-h3">{{ formatTopLabel(0) }}</span>
+                </div>
+                <div class="lb-podium-item">
+                    <div class="lb-medal lb-medal-bronze"></div>
+                    <span class="ql-caption">{{ formatTopLabel(2) }}</span>
                 </div>
             </div>
-        </ion-list>
+
+            <ion-list lines="none" class="ion-no-padding lb-list">
+                <div *ngFor="let entry of remainingEntries()" class="ql-card lb-entry">
+                    <span class="ql-h3 lb-rank">{{ entry.rank }}</span>
+                    <div class="lb-avatar"></div>
+                    <div class="lb-entry-body">
+                        <span class="ql-body">{{ entry.userId }}</span>
+                        <p class="ql-caption">{{ entry.totalScore | number }} pts</p>
+                    </div>
+                </div>
+            </ion-list>
+        </div>
     </div>
 </ion-content>

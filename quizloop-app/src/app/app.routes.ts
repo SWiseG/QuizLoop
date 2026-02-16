@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { quizSessionGuard, resultsSessionGuard } from './core/guards/quiz-session.guard';
 
 export const routes: Routes = [
   {
@@ -23,56 +25,67 @@ export const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/home/home.page').then((m) => m.HomePage),
   },
   {
     path: 'mode-select',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/home/mode-select/mode-select.page').then((m) => m.ModeSelectPage),
   },
   {
     path: 'quiz',
+    canActivate: [authGuard, quizSessionGuard],
     loadComponent: () =>
       import('./features/quiz/quiz.page').then((m) => m.QuizPage),
   },
   {
     path: 'results',
+    canActivate: [authGuard, resultsSessionGuard],
     loadComponent: () =>
       import('./features/results/results.page').then((m) => m.ResultsPage),
   },
   {
     path: 'rewards',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/rewards/rewards.page').then((m) => m.RewardsPage),
   },
   {
     path: 'leaderboard',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/leaderboard/leaderboard.page').then((m) => m.LeaderboardPage),
   },
   {
     path: 'profile',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/profile/profile.page').then((m) => m.ProfilePage),
   },
   {
     path: 'premium',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/premium/premium.page').then((m) => m.PremiumPage),
   },
   {
     path: 'settings',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/settings/settings.page').then((m) => m.SettingsPage),
   },
   {
     path: 'privacy-policy',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/settings/privacy-policy/privacy-policy.page').then((m) => m.PrivacyPolicyPage),
   },
   {
     path: 'terms',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/settings/terms/terms.page').then((m) => m.TermsPage),
   },

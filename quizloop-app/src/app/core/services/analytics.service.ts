@@ -19,6 +19,7 @@ export type AnalyticsEvent =
 export class AnalyticsService {
     private auth = inject(AuthService);
     private sessionId = crypto.randomUUID();
+    private appVersion = environment.appVersion;
 
     async logEvent(event: AnalyticsEvent, params: Record<string, any> = {}): Promise<void> {
         const enrichedParams = {
@@ -26,7 +27,7 @@ export class AnalyticsService {
             user_id: this.auth.userId() ?? 'unknown',
             session_id: this.sessionId,
             timestamp: new Date().toISOString(),
-            app_version: '1.0.0',
+            app_version: this.appVersion,
         };
 
         if (environment.production) {

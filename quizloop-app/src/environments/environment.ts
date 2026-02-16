@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:5000/api',
+  appVersion: '0.0.1',
   defaultLocale: 'en-US',
   firebase: {
     apiKey: 'PLACEHOLDER_DEV_API_KEY',

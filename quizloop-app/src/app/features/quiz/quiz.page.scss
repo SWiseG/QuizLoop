@@ -1,0 +1,23 @@
+.ql-hint-btn {
+    padding: 4px 12px;
+    font-size: 12px;
+}
+
+.ql-quiz-timer {
+    margin-bottom: 2rem;
+}
+
+.ql-quiz-question {
+    margin-bottom: 3rem;
+}
+
+.ql-quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ql-answer-option-hidden {
+    opacity: 0.35;
+    pointer-events: none;
+}

@@ -15,6 +15,8 @@ export interface UserProfile {
     streakCurrent: number;
     streakBest: number;
     totalGames: number;
+    totalCorrect: number;
+    totalAnswered: number;
     accuracyPct: number;
     coins: number;
     hasPremium: boolean;

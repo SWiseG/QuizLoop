@@ -17,6 +17,8 @@ describe('UserProfileService', () => {
             streakCurrent: 5,
             streakBest: 12,
             totalGames: 1,
+            totalCorrect: 0,
+            totalAnswered: 0,
             accuracyPct: 0,
             coins: 1000,
             hasPremium: false
@@ -57,10 +59,12 @@ describe('UserProfileService', () => {
         expect(service.userProfile().coins).toBe(1599);
     });
 
-    it('incrementGamesPlayed(8, 10) increments totalGames and recalculates accuracy', () => {
+    it('incrementGamesPlayed(8, 10) increments totals and recalculates accuracy', () => {
         service.incrementGamesPlayed(8, 10);
 
         expect(service.userProfile().totalGames).toBe(2);
-        expect(service.userProfile().accuracyPct).toBe(40);
+        expect(service.userProfile().totalCorrect).toBe(8);
+        expect(service.userProfile().totalAnswered).toBe(10);
+        expect(service.userProfile().accuracyPct).toBe(80);
     });
 });

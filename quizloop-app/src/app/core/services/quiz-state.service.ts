@@ -1,15 +1,23 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { Question } from '../models/quiz.models';
 import { QuestionService } from './question.service';
 import { UserProfileService } from './user-profile.service';
 import { Router } from '@angular/router';
 import { AnalyticsService } from './analytics.service';
 import { AdService } from './ad.service';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class QuizStateService {
+    private readonly http = inject(HttpClient, { optional: true });
+    private readonly auth = inject(AuthService);
+    private readonly submitScoreUrl = `${environment.apiUrl}/leaderboard/submit`;
+
     // State signals
     questions = signal<Question[]>([]);
     currentIndex = signal(0);
@@ -19,6 +27,7 @@ export class QuizStateService {
     timeLeft = signal(15);
     selectedAnswer = signal<number | null>(null);
     isAnswerLocked = signal(false);
+    currentMode = signal('classic');
 
     // Computed
     currentQuestion = computed(() => this.questions()[this.currentIndex()]);
@@ -39,7 +48,10 @@ export class QuizStateService {
     ) { }
 
     startNewRound(mode?: string) {
-        this.questionService.getQuestions(mode).subscribe(qs => {
+        const resolvedMode = mode?.trim() || 'classic';
+        this.currentMode.set(resolvedMode);
+
+        this.questionService.getQuestions(resolvedMode).subscribe(qs => {
             this.questions.set(qs);
             this.currentIndex.set(0);
             this.score.set(0);
@@ -49,7 +61,7 @@ export class QuizStateService {
             this.isAnswerLocked.set(false);
             this.startTimer();
             this.router.navigateByUrl('/quiz');
-            void this.analytics.logEvent('quiz_start', { category: mode, mode });
+            void this.analytics.logEvent('quiz_start', { category: resolvedMode, mode: resolvedMode });
         });
     }
 
@@ -101,7 +113,47 @@ export class QuizStateService {
             correct_count: this.correctCount(),
             total_questions: this.totalQuestions()
         });
+        void this.submitRoundResult();
         this.router.navigateByUrl('/results');
+    }
+
+    private async submitRoundResult(): Promise<void> {
+        if (!this.http || !this.auth.isAuthenticated()) {
+            return;
+        }
+
+        try {
+            const token = await this.getFirebaseIdToken();
+            if (!token) {
+                return;
+            }
+
+            const request: SubmitScoreRequest = {
+                mode: this.currentMode(),
+                score: this.score(),
+                correctCount: this.correctCount()
+            };
+
+            await firstValueFrom(
+                this.http.post(this.submitScoreUrl, request, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            );
+        } catch {
+            // Keep local flow even when backend score submit fails.
+        }
+    }
+
+    private async getFirebaseIdToken(): Promise<string | null> {
+        try {
+            const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication');
+            const result = await FirebaseAuthentication.getIdToken();
+            return result.token;
+        } catch {
+            return null;
+        }
     }
 
     private startTimer() {
@@ -128,4 +180,10 @@ export class QuizStateService {
             this.timerInterval = undefined;
         }
     }
+}
+
+interface SubmitScoreRequest {
+    mode: string;
+    score: number;
+    correctCount: number;
 }

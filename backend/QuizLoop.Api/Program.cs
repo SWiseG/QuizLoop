@@ -71,7 +71,6 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("SQLite DB path: {DbPath}", dbPath);
-        db.Database.EnsureDeleted();
         var created = db.Database.EnsureCreated();
         logger.LogInformation("Database EnsureCreated: {Created}", created);
     }
