@@ -58,11 +58,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Ensure database is created on startup (SQLite)
+// Ensure database schema is created on startup (SQLite - ephemeral on free tier)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    db.Database.EnsureDeleted();
+    var created = db.Database.EnsureCreated();
+    logger.LogInformation("Database EnsureCreated result: {Created}", created);
 }
 
 app.UseHttpsRedirection();
